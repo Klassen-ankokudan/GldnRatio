@@ -1,0 +1,227 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% proto.tex: 原稿テンプレート
+%% Based on `proto-one` 2019/04/04 [v2]
+%% 2019/04/04 (sample)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% [build.rc]: [FILES_UPLATEX]
+%%%% [build.rc]: [FILES_FULL3mm]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% [PDF.info]: [Title]: プロトタイプ原稿
+%%%% [PDF.info]: [Author]: ●● ●●
+%%%% [PDF.info]: #[Subject]: サブタイトル
+%%%% [PDF.info]: #[Keywords]: キーワード１
+%%%% [PDF.info]: #[Keywords]: キーワード２
+%%%% [PDF.info]: [Creator]: 暗黒通信団 The Darkside Communication Group
+%%%% [PDF.info]: #[Creator]: 神戸暗黒通信団 The Kobe Darkside Communication Group
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a5paper,dvipdfmx,uplatex]{jsarticle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{etoolbox}
+\IfFileExists{lgrenc.def}{\PassOptionsToPackage{LGR}{fontenc}}{}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\IfFileExists{./dark-noto.sty}{
+  \AfterEndDocument{\typeout{** ./dark-noto.sty あり: Source Han / Noto CJK は有効．}}
+  \RequirePackage{dark-noto}
+}{% ./dark-noto.sty がないとき
+  \AfterEndDocument{\typeout{** ./dark-noto.sty なし: Source Han / Noto CJK は無効．}}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage[small,okuduke,noload-okuduke,draftnotes]{dark-one}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 校正用コメントの設定
+\IfFileExists{./release.do}{% ./release.do があるとき
+  \AfterEndDocument{\typeout{** ./release.do あり: 校正用コメントは無効．}}
+  \DisableDraftNotes
+  \PassOptionsToPackage{nostamp}{draftwatermark}% draftwatermarkを無効化
+}{% ./release.do がないとき
+  \AfterEndDocument{\typeout{** ./release.do なし: 校正用コメントは有効．}}
+  \EnableDraftNotes
+  \AtEndDocument{\PrintDraftNotes}%
+  \PassOptionsToPackage{stamp}{draftwatermark}% draftwatermarkを有効化
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 裁ち落とし画像を入れる
+\IfFileExists{./dark-edge.do}{% ./dark-edge.do があるとき有効
+  \AfterEndDocument{\typeout{** ./dark-edge.do あり: 裁ち落とし画像は有効．}}%
+  \RequirePackage{dark-edge}%
+  %\def\TailEdgePrefix{images/edges/tailedge_}%
+  %\TailEdgeOffset30mm\relax%
+  %\setTailEdgeBegin{1}%
+  %\setTailEdgeEnd{1000000}%
+}{%
+  \AfterEndDocument{\typeout{** ./dark-edge.do なし: 裁ち落とし画像は無効．}}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\IfFileExists{\jobname.ver}{\input{\jobname.ver}}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{geometry}
+\newlength\nzw{\normalsize\global\nzw1zw\relax}% \normalsize の全角幅
+\geometry{nohead,top=18mm,bottom=17mm}
+\geometry{textwidth=40\nzw}%
+\topskip10pt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{exscale}
+\RequirePackage{url}
+\RequirePackage{bm}
+\RequirePackage{okumacro}
+\RequirePackage{ascmac}
+\RequirePackage{pxrubrica}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{siunitx}
+\RequirePackage{latexsym}
+\RequirePackage{graphicx}
+\RequirePackage{wrapfig}
+\RequirePackage{fancybox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{draftwatermark}% 背景の透かしがうるさいときはコメントアウト
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{plain}
+
+\begin{document}
+
+%%%% 「%」のあとは、コメントとして無視されます。
+%%%% ファイルの編集：コメント
+
+% \section{セクション}
+
+% \subsection{サブセクション}
+
+\IfFileExists{\jobname.tbl}{\input{\jobname.tbl}}{}
+
+% \begin{itemize}
+% \item 箇条書き（番号なし）
+% \item 箇条書き（番号なし）
+% \end{itemize}
+
+% \begin{enumerate}
+% \item 箇条書き（番号あり）
+% \item 箇条書き（番号あり）
+% \end{enumerate}
+
+% \begin{description}
+% \item[ラベル] 箇条書き（ラベルつき）
+% \item[ラベル] 箇条書き（ラベルつき）
+% \end{enumerate}
+
+% \draftnote{校正用メモ}
+
+% \appendix% これ以降、セクションの番号の付け方が変わります。
+% \section{ふろく}
+
+
+%%%% 参考文献：必要あれば
+%% 下のようにしておけば、\cite{aaaa} などでその文献番号を表示できる。
+% \begin{thebibliography}{99}
+% \bibitem{aaaa} ...
+% \bibitem{bbbb} ...
+% \end{thebibliography}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% okuduke.tex: 奥付テンプレート
+%% Based on `proto-one` 2019/04/04 [v2]
+%% 2019/04/04 (sample)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\okudukefootnotetext{}
+\def\okudukeadjustmargin{}
+\def\okudukeadjustmargin{\hspace*{1.5zw}}%% proto-one 標準 1.5zw
+\iffalse%%% 最終ページに脚注があるとき、\iftrue に変更
+  \def\okudukefootnotetext{\footnotetext[0]}
+  \def\okudukeadjustmargin{\hspace*{-3zw}}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\clearpage
+\null
+\vfill
+\okudukefootnotetext{%
+%\okudukeskip
+\noindent\okudukeadjustmargin%
+%\resizebox{12cm}{!}%通常サイズの奥付にしたいときはこの行をコメントアウト
+{%
+\begin{okuduke}{7.5cm}%% proto-one 暗黒標準 7.5cm，神戸標準 8.75cm
+%% ↑著作年表示が複数年にわたるときは 8cm 以上がよい
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 基本書誌情報
+\oSetTitle{% 書名 \oTitle で出力する
+% プロトタイプ原稿
+\jruby[<g>]{{プロトタイプ原稿}}{ぷろとたいぷげんこう}%
+}
+\oSetDateLines{% 発行履歴: oDate環境（tabular環境）に渡される
+%2018&年& 8&月&12&日& 初版 発行%\\% コミックマーケット94 東京ビッグサイト 東フ30b
+%2018&年&12&月&31&日& 初版 発行%\\% コミックマーケット95 東京ビッグサイト 月曜東U37b 暗黒
+%2018&年&12&月&31&日& 初版 発行%\\% コミックマーケット95 東京ビッグサイト 月曜東U37a 神戸
+%2019&年& 4&月&14&日& 初版 発行%\\% 技術書典6
+2019&年&??&月&??&日& 初版 発行%\\%
+}
+\oSetInfoLines{% 各種情報: oInfo環境（tabular環境）に渡される
+著　者& ●● ●● {\tiny（●●●● ●●●●）} \\
+発行者& 星野 香奈 {\tiny（ほしの かな）}\\
+発行所& {\tiny 同人集合} 暗黒通信団 （\texttt{http://ankokudan.org/d/}）\\
+　　　& 〒277-8691 千葉県柏局私書箱54号 D係\\
+% 発行者& 趙 逖董 {\tiny（ちょう てきとう）}\\% 神戸暗黒通信団
+% 発行所& {\tiny 革命的同人主義者同盟} 神戸暗黒通信団 （\texttt{http://ankokudan.org/k/}）\\% 神戸暗黒通信団
+% 　　　& 〒xxx-xxxx ○○県○○○○ \\% 神戸暗黒通信団 住所なし？
+頒　価& \oPrice\ / ISBN\oISBN\ \oBunrui
+}
+\oSetCopyrightYear{2019}%% 発行年     \oCopyrightYear で参照
+\oSetPrice{???円}%            % おねだん   \oPrice で参照
+\oSetISBN{978-4-87310-???-?}   % ISBNコード \oISBN で参照
+\oSetBunrui{C????}%            % 分類記号   \oBunrui で参照
+\oSetLogoPhrase{% コメント：↓小ネタを入れて書き換える。
+乱丁・落丁は在庫がある限りお取り替えいたします。%
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% 奥付用の基本設定
+\baselineskip12pt\parskip0sp\scriptsize\bfseries\gtfamily%
+\oTitle% \oSetTitle で設定した書名
+\vskip2pt
+\oruleheight1mm% 奥付用の太めの線の幅（高さ）
+\orulefill% ■■■■■■■■奥付用の太めの線■■■■■■■■■■■■
+\vskip0mm
+\oDateLines% 発行履歴
+\vskip0mm
+\oInfoLines% 各種情報
+\vskip0mm
+\orulefill% ■■■■■■■■奥付用の太めの線■■■■■■■■■■■■
+\vskip0mm
+\oSetLogoWidth{1cm}% \oLogoWidth と \oLogoRemainderWidth を設定する
+% \oLogoWidth: ロゴ部分の幅
+% \oLogoRemainderWidth: コメント部分の幅 (\textwidth-\oLogoWidth)
+\parbox{\oLogoWidth}{\makebox[\oLogoWidth][c]{\truecons}}%
+{\parbox{\oLogoRemainderWidth}{\normalfont\scriptsize\oLogoPhrase}}% めいっぱい
+%{\normalsize\parbox{19.5zw}{\normalfont\scriptsize\oLogoPhrase}}% すこし限定
+\vskip1pt
+\orulefill[0.1mm]%─────細い線─────────────────
+\vskip0mm
+\oLastLine{\scriptsize
+%\copyleft Copyleft \oCopyrightYear\ 暗黒通信団% コピーレフトのときはこちら
+\copyright Copyright \oCopyrightYear\ 暗黒通信団% コピーライト通常表示
+%\copyleft Copyleft \oCopyrightYear\ 神戸暗黒通信団% コピーレフトのときはこちら
+%\copyright Copyright \oCopyrightYear\ 神戸暗黒通信団% コピーライト通常表示
+  \hfill Printed in Japan% WEB公開版のときはコメントアウトする
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{okuduke}%
+}%
+\vspace*{1mm}%% proto-one 標準 1mm
+%\vfill%
+%\null%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+%%%% $ FilePath: proto.tex $
+%%%% $ FileHash: ec207a56a89cbcae91fba453805ba67e4ce6b090 $
+%%%% $ FileAuthorDate: 2019-04-04T04:04:04+09:00 $
+%%%% $ FileCommitDate: 2019-04-04T04:04:04+09:00 $
+%%%% $ FileCommitHash: 3faab843b277137d8b621a01e1abf1ba1c5b2971 $
+%%%% $ AuthorDate: 2019-04-04T04:04:04+09:00 $
+%%%% $ CommitDate: 2019-04-04T04:04:04+09:00 $
+%%%% $ CommitHash: 3faab843b277137d8b621a01e1abf1ba1c5b2971 $
+%%%% $ ProjectName: proto-one $
+%%%% $ RefName: v2_d20190404 $
+%%%% $ Status: $
