@@ -96,11 +96,15 @@ def fmt(x):
     ncol=5
     nrow=len(x)//(nblock*ncol)
     nleft=len(x)%(nblock*ncol)
-    for i in range(0,nrow,1):
-        print("{:08d}".format(count),end=" : ")
+    print("{:08d}:".format(count)+str(x[0])+".",end="")
+    for j in range(0,ncol,1):
+        print(x[1+(j*nblock):(1+(j+1)*nblock)],end=" ")
+        count+=nblock
+    print("\\\\")
+    for i in range(1,nrow,1):
+        print("{:08d}".format(count),end=":  ")
         for j in range(0,ncol,1):
-            print(x[(i*ncol*nblock+j*nblock):((i*ncol*nblock)+(j+1)*nblock)],end=" ")
-            print("",end=" ")
+            print(x[(1+i*ncol*nblock+j*nblock):(1+(i*ncol*nblock)+(j+1)*nblock)],end=" ")
             count+=nblock
         print("\\\\")
 
@@ -127,7 +131,7 @@ def root(A,B):
     return X
 
 def main():
-    n=4000
+    n=300
     Xs=[0]*n
     Xs[0]=2
     A="0"
