@@ -3,9 +3,6 @@
 import math
 import random
 
-#print("pi:",math.pi,"\n")
-
-
 # Calculated a Random N digit number
 def calc(n):
     x=""
@@ -13,26 +10,40 @@ def calc(n):
         x+=str(random.randint(0,9))
     return x
 
-# Append a digit to the end of a integer, i.e. append(234,5)=2345
-def append(A,x):
-    return str(A)+str(x)
+# Append a digit to the end of a integer, 
+# i.e. append(234,5)=2345
+# i.e. append(234,0)=2340
+# but  append(0,0)=0
 
-# Multiply an integer of arbitary length by an integer of fixed length
+def append(A,x):
+    if A=="0":
+        return "0"
+    else:
+        return str(A)+str(x)
+
+# Multiply an integer of arbitary length by an integer of fixed length (1)
 def mul(A,x):
     Ans=""
     r=0
-    #print("Start")
-    #print(A)
     for i in range(len(A)-1,-1,-1):
         Ans+=str((int(A[i])*x+r)%10)
-        #print(A[i],"*",2,"+",r,"=",int(A[i])*x,"+",r,"=",Ans)
         r=(int(A[i])*x+r)//10
-    #print("End")
-    #print(Ans)
     if r!=0:
         return str(r)+Ans[::-1]
     else:
         return Ans[::-1]
+
+# Divide an integer of arbitary length by a number (just two really)
+def div(A,x):
+    Ans=""
+    r=0
+    for i in range(0,len(A),1):
+        Ans+=str((int(A[i])+r*10)//x)
+        r=(int(A[i])+r*10)%x
+    if r!=0:
+        return Ans+str(int(r/x*10))
+    else:
+        return Ans
 
 def sub(A,B):
     A=A.zfill(max(len(A),len(B)))
@@ -42,17 +53,13 @@ def sub(A,B):
         C=B
         B=A
         A=C
-    #print(" ",A)
-    #print("-",B)
     r=0
     Ans=""
     for i in range(len(A)-1,-1,-1):
         if  int(A[i])<(int(B[i])+r):
-            #print("10+",A[i],"-",B[i],"+",r,"=",10+int(A[i])-(int(B[i])+r))
             Ans+=str(10+int(A[i])-(int(B[i])+r))
             r=1
         else:
-            #print(A[i],"-",B[i],"+",r,"=",int(A[i])-(int(B[i])+r))
             Ans+=str(int(A[i])-(int(B[i])+r))
             r=0
     if C==0:
@@ -65,8 +72,6 @@ def add(A,B):
     B=B.zfill(max(len(A),len(B)))
     r=0
     Ans=""
-    #print(" ",A)
-    #print("+",B)
     for i in range(len(A)-1,-1,-1):
         if  int(A[i])+(int(B[i])+r)>9:
             Ans+=str((10+int(A[i])+(int(B[i])+r))%10)
@@ -88,65 +93,61 @@ def check(A,x):
 def fmt(x):
     count=0
     nblock=10
-    ncol=10
+    ncol=5
     nrow=len(x)//(nblock*ncol)
     nleft=len(x)%(nblock*ncol)
     for i in range(0,nrow,1):
         print("{:08d}".format(count),end=" : ")
-        for j in range(0,ncol,nblock):
-            print(x[(i*j):(i*j+nblock)],end=" ")
+        for j in range(0,ncol,1):
+            print(x[(i*ncol*nblock+j*nblock):((i*ncol*nblock)+(j+1)*nblock)],end=" ")
             print("",end=" ")
-            count+=1
+            count+=nblock
         print("\\\\")
 
-
-def test_add():
-    #N=calc(5)
-    #MyAns=mul(append(N,2),2)
-    #print(MyAns==str(check(N,2)))
-    A=calc(2)
-    B=calc(6)
-    Ans=add(A,B)
-    print(Ans)
-    print(str(int(A)+int(B)))
-    print(Ans==str(int(A)+int(B)))
+# Less Than
+def lt(A,B):
+    if len(A)<len(B):
+        return True
+    elif len(A)>len(B):
+        return False
+    else:
+        return A<B
 
 def fn(A,x):
-    #return (10*A+x)*x
     return mul(append(A,x),x)
 
 def root(A,B):
     X=0
-    #print("Start",A,B)
     for i in range(1,10):
-        #print(X,fn(A,X+1),fn(B,X+1))
-        if int(fn(A,X+1))<B:
+        if lt(fn(A,X+1),B):
             X+=1
-            #print("--",X)
             continue
         else:
-            #print("->",X)
             break
-    #print("End",X)
     return X
 
 def main():
-    n=100
+    n=4000
     Xs=[0]*n
     Xs[0]=2
-    A=0
-    B=5
-    C=4
-    #print("A0",A,"B0",B,"C0",C,"=","X0",Xs[0])
+    A="0"
+    B="5"
+    C="4"
     for i in range(1,n):
-        A=10*A+2*Xs[i-1]
-        B=B*100-C*100
+        A=(add(append(str(A),"0"),str(Xs[i-1]*2)))
+        B=(sub(append(str(B),"00"),append(C,"00")))
         Xs[i]=root(A,B)
-        C=int(fn(A,Xs[i]))
-        #print("A"+str(i),A,"B"+str(i),B,"C"+str(i),C,"=","X"+str(i),Xs[i])
-    #print(''.join([str(i//10) for i in range(len(Xs))]))
-    #print(''.join([str(i%10) for i in range(len(Xs))]))
-    print(''.join([str(x) for x in Xs]))
+        C=fn(A,Xs[i])
+    # Add one to sqrt(5)
+    Xs[0]=3
+    sqrt5plusone=''.join([str(x) for x in Xs])
+    sqrt5plusone_divby2=str(div(sqrt5plusone,2))
+
+    #print("py")
+    #print('{:f}'.format(((1+math.sqrt(5))/2)*10**300))
+    #print("hand")
+    #print(sqrt5plusone_divby2)
+    fmt(sqrt5plusone_divby2)
 
 if __name__=="__main__":
     main()
