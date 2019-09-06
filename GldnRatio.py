@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import sys
 import math
 import random
 
@@ -131,13 +132,15 @@ def root(A,B):
     return X
 
 def main():
-    n=300
+    n=int(sys.argv[1])
     Xs=[0]*n
     Xs[0]=2
     A="0"
     B="5"
     C="4"
     for i in range(1,n):
+        if i%50==0:
+            sys.stderr.write(str(i)+"\n")
         A=(add(append(str(A),"0"),str(Xs[i-1]*2)))
         B=(sub(append(str(B),"00"),append(C,"00")))
         Xs[i]=root(A,B)
