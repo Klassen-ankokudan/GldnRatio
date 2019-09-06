@@ -150,10 +150,6 @@ def main():
     sqrt5plusone=''.join([str(x) for x in Xs])
     sqrt5plusone_divby2=str(div(sqrt5plusone,2))
 
-    #print("py")
-    #print('{:f}'.format(((1+math.sqrt(5))/2)*10**300))
-    #print("hand")
-    #print(sqrt5plusone_divby2)
     fmt(sqrt5plusone_divby2)
 
 if __name__=="__main__":
